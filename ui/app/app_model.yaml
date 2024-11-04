@@ -1,0 +1,529 @@
+about:
+  date: November 04, 2024 07:38:35
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  AuditLog:
+    columns:
+    - label: ' table_name*'
+      name: table_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: user_id
+      template: integer
+      type: INTEGER
+    - name: action
+      required: true
+      template: text
+      type: VARCHAR
+    - name: timestamp
+      type: DATETIME
+    - name: details
+      template: text
+      type: TEXT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store audit trails of changes within the system.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: table_name
+    home_template: home_template.html
+    info_list: Table to store audit trails of changes within the system.
+    label: AuditLog
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: AuditLog
+  Group:
+    columns:
+    - label: ' group_name*'
+      name: group_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: TEXT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store groups to which users can belong.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: group_name
+    home_template: home_template.html
+    info_list: Table to store groups to which users can belong.
+    label: Group
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - group_id
+      name: UserGroupList
+      resource: UserGroup
+    type: Group
+  Message:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: receiver_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: sender_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: content
+      required: true
+      template: text
+      type: TEXT
+    - name: sent_time
+      type: DATETIME
+    description: Table to store messages sent between users.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store messages sent between users.
+    label: Message
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - receiver_id
+      name: receiver
+      resource: User
+    - direction: toone
+      fks:
+      - sender_id
+      name: sender
+      resource: User
+    type: Message
+  Notification:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: message
+      required: true
+      template: text
+      type: TEXT
+    - name: read
+      template: text
+      type: BOOLEAN
+    description: Table to store notifications for users.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store notifications for users.
+    label: Notification
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Notification
+  Permission:
+    columns:
+    - label: ' permission_name*'
+      name: permission_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: TEXT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store individual permissions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: permission_name
+    home_template: home_template.html
+    info_list: Table to store individual permissions.
+    label: Permission
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - permission_id
+      name: RolePermissionList
+      resource: RolePermission
+    type: Permission
+  Role:
+    columns:
+    - label: ' role_name*'
+      name: role_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: TEXT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store role details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: role_name
+    home_template: home_template.html
+    info_list: Table to store role details.
+    label: Role
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - role_id
+      name: RolePermissionList
+      resource: RolePermission
+    - direction: tomany
+      fks:
+      - role_id
+      name: UserRoleList
+      resource: UserRole
+    type: Role
+  RolePermission:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: permission_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: role_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Intersection table between roles and permissions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Intersection table between roles and permissions.
+    label: RolePermission
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - permission_id
+      name: permission
+      resource: Permission
+    - direction: toone
+      fks:
+      - role_id
+      name: role
+      resource: Role
+    type: RolePermission
+  User:
+    columns:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: password_hash
+      required: true
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: date_joined
+      type: DATETIME
+    description: Table to store user details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    home_template: home_template.html
+    info_list: Table to store user details.
+    label: User
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: AuditLogList
+      resource: AuditLog
+    - direction: tomany
+      fks:
+      - receiver_id
+      name: MessageList
+      resource: Message
+    - direction: tomany
+      fks:
+      - sender_id
+      name: senderMessageList
+      resource: Message
+    - direction: tomany
+      fks:
+      - user_id
+      name: NotificationList
+      resource: Notification
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserActivityLogList
+      resource: UserActivityLog
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserGroupList
+      resource: UserGroup
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserProfileList
+      resource: UserProfile
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserRoleList
+      resource: UserRole
+    type: User
+  UserActivityLog:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: activity
+      required: true
+      template: text
+      type: TEXT
+    - name: timestamp
+      type: DATETIME
+    description: Table to record user activities within the system.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to record user activities within the system.
+    label: UserActivityLog
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserActivityLog
+  UserGroup:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: group_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Intersection table between users and groups.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Intersection table between users and groups.
+    label: UserGroup
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - group_id
+      name: group
+      resource: Group
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserGroup
+  UserProfile:
+    columns:
+    - label: ' first_name*'
+      name: first_name
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: last_name
+      template: text
+      type: VARCHAR
+    - name: birthdate
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store additional user profile information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: first_name
+    home_template: home_template.html
+    info_list: Table to store additional user profile information.
+    label: UserProfile
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserProfile
+  UserRole:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: role_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Intersection table between users and roles.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Intersection table between users and roles.
+    label: UserRole
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - role_id
+      name: role
+      resource: Role
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserRole
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

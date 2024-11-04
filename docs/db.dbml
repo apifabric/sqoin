@@ -1,0 +1,119 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+AuditLog: Table to store audit trails of changes within the system.
+User: Table to store user details.
+Group: Table to store groups to which users can belong.
+Message: Table to store messages sent between users.
+Notification: Table to store notifications for users.
+Permission: Table to store individual permissions.
+Role: Table to store role details.
+RolePermission: Intersection table between roles and permissions.
+UserActivityLog: Table to record user activities within the system.
+UserGroup: Intersection table between users and groups.
+UserProfile: Table to store additional user profile information.
+UserRole: Intersection table between users and roles.
+'''
+}
+
+Table AuditLog {
+    id INTEGER [primary key]
+    table_name VARCHAR 
+    action VARCHAR 
+    timestamp DATETIME 
+    user_id INTEGER 
+    details TEXT 
+    }
+
+Table User {
+    id INTEGER [primary key]
+    username VARCHAR 
+    password_hash VARCHAR 
+    email VARCHAR 
+    date_joined DATETIME 
+    }
+
+Table Group {
+    id INTEGER [primary key]
+    group_name VARCHAR 
+    description TEXT 
+    }
+
+Table Message {
+    id INTEGER [primary key]
+    sender_id INTEGER 
+    receiver_id INTEGER 
+    content TEXT 
+    sent_time DATETIME 
+    }
+
+Table Notification {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    message TEXT 
+    read BOOLEAN 
+    }
+
+Table Permission {
+    id INTEGER [primary key]
+    permission_name VARCHAR 
+    description TEXT 
+    }
+
+Table Role {
+    id INTEGER [primary key]
+    role_name VARCHAR 
+    description TEXT 
+    }
+
+Table RolePermission {
+    id INTEGER [primary key]
+    role_id INTEGER 
+    permission_id INTEGER 
+    }
+
+Table UserActivityLog {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    activity TEXT 
+    timestamp DATETIME 
+    }
+
+Table UserGroup {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    group_id INTEGER 
+    }
+
+Table UserProfile {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    first_name VARCHAR 
+    last_name VARCHAR 
+    birthdate DATETIME 
+    }
+
+Table UserRole {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    role_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: AuditLog.(user_id) < User.(id)
+    Ref: Message.(receiver_id) < User.(id)
+    Ref: Message.(sender_id) < User.(id)
+    Ref: Notification.(user_id) < User.(id)
+    Ref: RolePermission.(permission_id) < Permission.(id)
+    Ref: RolePermission.(role_id) < Role.(id)
+    Ref: UserActivityLog.(user_id) < User.(id)
+    Ref: UserGroup.(group_id) < Group.(id)
+    Ref: UserGroup.(user_id) < User.(id)
+    Ref: UserProfile.(user_id) < User.(id)
+    Ref: UserRole.(role_id) < Role.(id)
+    Ref: UserRole.(user_id) < User.(id)

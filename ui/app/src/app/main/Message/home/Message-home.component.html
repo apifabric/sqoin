@@ -1,0 +1,53 @@
+<o-form-layout-manager attr="Message" mode="tab" title="MESSAGE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="MessageTable" 
+            service="Message" 
+            entity="Message" 
+            title="MESSAGE"
+            keys="id"
+            columns="id;receiver_id;sender_id;content;sent_time" 
+            header-actions="R;D"
+            visible-columns="id;receiver_id;sender_id;content;sent_time"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="receiver_id" title="receiver_id">
+    <o-table-cell-renderer-service attr="receiver_id" 
+        service="User" entity="UserType" columns="id;username"
+        parent-keys="id:receiver_id"
+        value-column="username" keys="receiver_id"
+        visible-columns="username" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="sender_id" title="sender_id">
+    <o-table-cell-renderer-service attr="sender_id" 
+        service="User" entity="UserType" columns="id;username"
+        parent-keys="id:sender_id"
+        value-column="username" keys="sender_id"
+        visible-columns="username" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #content attr="content" title="content" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #sent_time attr="sent_time" title="sent_time" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

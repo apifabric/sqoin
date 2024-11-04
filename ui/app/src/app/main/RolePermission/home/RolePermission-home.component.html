@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="RolePermission" mode="tab" title="ROLEPERMISSION">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="RolePermissionTable" 
+            service="RolePermission" 
+            entity="RolePermission" 
+            title="ROLEPERMISSION"
+            keys="id"
+            columns="id;permission_id;role_id" 
+            header-actions="R;D"
+            visible-columns="id;permission_id;role_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="permission_id" title="permission_id">
+    <o-table-cell-renderer-service attr="permission_id" 
+        service="Permission" entity="PermissionType" columns="id;permission_name"
+        parent-keys="id:permission_id"
+        value-column="permission_name" keys="permission_id"
+        visible-columns="permission_name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="role_id" title="role_id">
+    <o-table-cell-renderer-service attr="role_id" 
+        service="Role" entity="RoleType" columns="id;role_name"
+        parent-keys="id:role_id"
+        value-column="role_name" keys="role_id"
+        visible-columns="role_name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
